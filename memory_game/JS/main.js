@@ -24,15 +24,16 @@ let score = {won: 0, lost: 0};
 let randomRoll = [];
 
 function checkForMatch() {
-	console.log(ranksInPlay);
 	//this.setAttribute('src', cards[cardId].cardImage);
 
 	if ((ranksInPlay[0] === ranksInPlay[1] && ranksInPlay.length === 2) && (suitesInPlay[0] === suitesInPlay[1] && suitesInPlay.length === 2)) {
+  		showCards();
   		alert("You found a match!");
   		score.won += 1;
   		console.log(score);
   		scoreBoard();
 	} else if ((ranksInPlay[0] !== ranksInPlay[1] && ranksInPlay.length === 2) || (suitesInPlay[0] !== suitesInPlay[1] && suitesInPlay.length === 2)) {
+  		showCards();
   		alert("No match, try again.");
   		score.lost += 1;
   		console.log(score);
@@ -46,7 +47,6 @@ function checkForMatch() {
 function flipCard() {
 	if (this.getAttribute('src') == 'images/back.png') {
 		let cardId = this.getAttribute('data-id');
-	console.log(cards[cardId].cardImage);
 	this.setAttribute('src', cards[cardId].cardImage);
 	ranksInPlay.push(cards[cardId].rank);
 	suitesInPlay.push(cards[cardId].suit);
@@ -65,6 +65,31 @@ function createFlashBoard() {
 		cardStageOne.setAttribute('data-id', randomRoll[i]);
 		document.getElementById("game-board").appendChild(cardStageOne);
 	}
+
+	let zeroCard = null;
+	let oneCard = null;
+	let twoCard = null;
+	let threeCard = null;
+	for (let i = 0; i < randomRoll.length; i++) {
+		if (randomRoll[i] == 0) {
+			zeroCard += 1;
+		}
+		else if (randomRoll[i] == 1) {
+			oneCard += 1;
+		}
+		else if (randomRoll[i] == 2) {
+			twoCard += 1;
+		}
+		else {
+			threeCard += 1;
+		}
+	}
+	if (zeroCard == 1 && oneCard == 1 && twoCard == 1 && threeCard == 1) {
+		setTimeout(showCards, 4000);
+		randomRoll = [];
+		createFlashBoard();
+	}
+
 	if (score.won <= 3) {
 		setTimeout(createHiddenBoard, 1000);
 	}
@@ -116,7 +141,6 @@ function clearImages() {
 		while (resetImages.hasChildNodes()) {
 			resetImages.removeChild(resetImages.firstChild);
 		}
-		ranksInPlay =[];
 	}
 }
 
@@ -145,6 +169,12 @@ function startGame() {
 	startButton.innerHTML = 'Start Game';
 	document.getElementById("game-board").appendChild(startButton);
 	startButton.addEventListener('click', createFlashBoard);
+}
+
+function showCards() {
+	for (let i = 0; i < cards.length; i++) {
+		document.getElementsByTagName('img')[i].setAttribute('src', cards[randomRoll[i]].cardImage);
+	}
 }
 
 startGame();
