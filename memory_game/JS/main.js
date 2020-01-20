@@ -20,6 +20,7 @@ let cards = [ {
 
 let cardsInPlay =[];
 let score = {won: 0, lost: 0};
+let randomRoll = [];
 
 function checkForMatch() {
 	console.log(cardsInPlay);
@@ -29,11 +30,13 @@ function checkForMatch() {
   		alert("You found a match!");
   		score.won += 1;
   		console.log(score);
+  		randomRoll = [];
   		scoreBoard();
 	} else if (cardsInPlay[0] !== cardsInPlay[1] && cardsInPlay.length === 2) {
   		alert("No match, try again.");
   		score.lost += 1;
   		console.log(score);
+  		randomRoll = [];
   		scoreBoard();
 	}
 	else {
@@ -51,15 +54,28 @@ function flipCard() {
 	checkForMatch();
 }
 
-function createBoard() {
+function createFlashBoard() {
 	clearImages();
 
 	for (let i = 0; i < cards.length; i++) {
-		let cardElement = document.createElement('img');
-		cardElement.setAttribute('src', 'images/back.png');
-		cardElement.setAttribute('data-id', i);
-		cardElement.addEventListener('click', flipCard);
-		document.getElementById("game-board").appendChild(cardElement);
+		let cardStageOne = document.createElement('img');
+		randomRoll.push((Math.floor((Math.random() * 4) + 1) - 1));
+		cardStageOne.setAttribute('src', cards[randomRoll[i]].cardImage);
+		cardStageOne.setAttribute('data-id', randomRoll[i]);
+		document.getElementById("game-board").appendChild(cardStageOne);
+	}
+	setTimeout(createHiddenBoard, 300);
+}
+
+function createHiddenBoard() {
+	clearImages();
+
+	for (let i = 0; i < cards.length; i++) {
+		let cardStageTwo = document.createElement('img');
+		cardStageTwo.setAttribute('src', 'images/back.png');
+		cardStageTwo.setAttribute('data-id', randomRoll[i]);
+		cardStageTwo.addEventListener('click', flipCard);
+		document.getElementById("game-board").appendChild(cardStageTwo);
 	}
 }
 
@@ -86,11 +102,18 @@ function scoreBoard() {
 
 function resetButt() {
 	let resetButton = document.createElement('button');
-	resetButton.innerHTML = 'Reset Button';
+	resetButton.innerHTML = 'Reset Game';
 	document.getElementById("game-board").appendChild(resetButton);
-	resetButton.addEventListener('click', createBoard);
+	resetButton.addEventListener('click', createFlashBoard);
 }
 
-createBoard();
+function startGame() {
+	let startButton = document.createElement('button');
+	startButton.innerHTML = 'Start Game';
+	document.getElementById("game-board").appendChild(startButton);
+	startButton.addEventListener('click', createFlashBoard);
+}
+
+startGame();
 
 
