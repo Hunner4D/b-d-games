@@ -18,25 +18,24 @@ let cards = [ {
 		cardImage: "images/king-of-diamonds.png"}
 	];
 
-let cardsInPlay =[];
+let ranksInPlay = [];
+let suitesInPlay = [];
 let score = {won: 0, lost: 0};
 let randomRoll = [];
 
 function checkForMatch() {
-	console.log(cardsInPlay);
+	console.log(ranksInPlay);
 	//this.setAttribute('src', cards[cardId].cardImage);
 
-	if (cardsInPlay[0] === cardsInPlay[1] && cardsInPlay.length === 2) {
+	if ((ranksInPlay[0] === ranksInPlay[1] && ranksInPlay.length === 2) && (suitesInPlay[0] === suitesInPlay[1] && suitesInPlay.length === 2)) {
   		alert("You found a match!");
   		score.won += 1;
   		console.log(score);
-  		randomRoll = [];
   		scoreBoard();
-	} else if (cardsInPlay[0] !== cardsInPlay[1] && cardsInPlay.length === 2) {
+	} else if ((ranksInPlay[0] !== ranksInPlay[1] && ranksInPlay.length === 2) || (suitesInPlay[0] !== suitesInPlay[1] && suitesInPlay.length === 2)) {
   		alert("No match, try again.");
   		score.lost += 1;
   		console.log(score);
-  		randomRoll = [];
   		scoreBoard();
 	}
 	else {
@@ -45,13 +44,15 @@ function checkForMatch() {
 }
 
 function flipCard() {
-	let cardId = this.getAttribute('data-id');
+	if (this.getAttribute('src') == 'images/back.png') {
+		let cardId = this.getAttribute('data-id');
 	console.log(cards[cardId].cardImage);
 	this.setAttribute('src', cards[cardId].cardImage);
-
-	cardsInPlay.push(cards[cardId].rank);
+	ranksInPlay.push(cards[cardId].rank);
+	suitesInPlay.push(cards[cardId].suit);
 	console.log(cards[cardId].rank + " of " + cards[cardId].suit + " was chosen.----");
 	checkForMatch();
+	}
 }
 
 function createFlashBoard() {
@@ -64,7 +65,36 @@ function createFlashBoard() {
 		cardStageOne.setAttribute('data-id', randomRoll[i]);
 		document.getElementById("game-board").appendChild(cardStageOne);
 	}
-	setTimeout(createHiddenBoard, 300);
+	if (score.won <= 3) {
+		setTimeout(createHiddenBoard, 1000);
+	}
+	else if (score.won <= 5) {
+		setTimeout(createHiddenBoard, 900);
+	}
+	else if (score.won <= 7) {
+		setTimeout(createHiddenBoard, 800);
+	}
+	else if (score.won <= 9) {
+		setTimeout(createHiddenBoard, 700);
+	}
+	else if (score.won <= 11) {
+		setTimeout(createHiddenBoard, 600);
+	}
+	else if (score.won <= 13) {
+		setTimeout(createHiddenBoard, 500);
+	}
+	else if (score.won <= 15) {
+		setTimeout(createHiddenBoard, 400);
+	}
+	else if (score.won <= 18) {
+		setTimeout(createHiddenBoard, 300);
+	}
+	else if (score.won <= 21) {
+		setTimeout(createHiddenBoard, 200);
+	}
+	else if (score.won > 21) {
+		setTimeout(createHiddenBoard, 150);
+	}
 }
 
 function createHiddenBoard() {
@@ -86,7 +116,7 @@ function clearImages() {
 		while (resetImages.hasChildNodes()) {
 			resetImages.removeChild(resetImages.firstChild);
 		}
-		cardsInPlay =[];
+		ranksInPlay =[];
 	}
 }
 
@@ -96,6 +126,9 @@ function scoreBoard() {
 	showScore.setAttribute('id', 'scoreboard');
 	showScore.innerHTML = 'Times won: ' + score.won + '. times lost: ' + score.lost + '.';
 	document.getElementById("game-board").appendChild(showScore);
+	randomRoll = [];
+	ranksInPlay = [];
+	suitesInPlay = [];
 
 	resetButt();
 }
