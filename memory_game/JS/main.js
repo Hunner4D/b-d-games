@@ -19,6 +19,7 @@ let cards = [ {
 	];
 
 let cardsInPlay =[];
+let score = {won: 0, lost: 0};
 
 function checkForMatch() {
 	console.log(cardsInPlay);
@@ -26,10 +27,14 @@ function checkForMatch() {
 
 	if (cardsInPlay[0] === cardsInPlay[1] && cardsInPlay.length === 2) {
   		alert("You found a match!");
-  		resetButt();
+  		score.won += 1;
+  		console.log(score);
+  		scoreBoard();
 	} else if (cardsInPlay[0] !== cardsInPlay[1] && cardsInPlay.length === 2) {
   		alert("No match, try again.");
-  		resetButt();
+  		score.lost += 1;
+  		console.log(score);
+  		scoreBoard();
 	}
 	else {
 		console.log("Pick a card.");
@@ -47,6 +52,8 @@ function flipCard() {
 }
 
 function createBoard() {
+	clearImages();
+
 	for (let i = 0; i < cards.length; i++) {
 		let cardElement = document.createElement('img');
 		cardElement.setAttribute('src', 'images/back.png');
@@ -56,21 +63,32 @@ function createBoard() {
 	}
 }
 
-function resetButt() {
-	let resetButton = document.createElement('button');
-	resetButton.innerHTML = 'Reset Button';
-	document.getElementById("game-board").appendChild(resetButton);
-	resetButton.addEventListener('click', resetGame);
-}
-
-function resetGame() {
-	var resetImages = document.getElementById("game-board");
+function clearImages() {
+	if (document.getElementById("game-board").hasChildNodes()) {
+		var resetImages = document.getElementById("game-board");
 
 		while (resetImages.hasChildNodes()) {
 			resetImages.removeChild(resetImages.firstChild);
 		}
-		createBoard();
 		cardsInPlay =[];
+	}
+}
+
+function scoreBoard() {
+	clearImages();
+	let showScore = document.createElement('h1');
+	showScore.setAttribute('id', 'scoreboard');
+	showScore.innerHTML = 'Times won: ' + score.won + '. times lost: ' + score.lost + '.';
+	document.getElementById("game-board").appendChild(showScore);
+
+	resetButt();
+}
+
+function resetButt() {
+	let resetButton = document.createElement('button');
+	resetButton.innerHTML = 'Reset Button';
+	document.getElementById("game-board").appendChild(resetButton);
+	resetButton.addEventListener('click', createBoard);
 }
 
 createBoard();

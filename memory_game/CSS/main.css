@@ -100,3 +100,9 @@ font-size: 0;
 	color: #f28a30;
 	font-weight: 700;
 }
+
+#scoreboard {
+	color: #00A6B3;
+	text-transform: capitalize;
+	font-weight: 700;
+}
