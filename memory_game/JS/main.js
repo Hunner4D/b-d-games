@@ -26,10 +26,10 @@ function checkForMatch() {
 
 	if (cardsInPlay[0] === cardsInPlay[1] && cardsInPlay.length === 2) {
   		alert("You found a match!");
-  		// resetButt();
+  		resetButt();
 	} else if (cardsInPlay[0] !== cardsInPlay[1] && cardsInPlay.length === 2) {
   		alert("No match, try again.");
-  		// resetButt();
+  		resetButt();
 	}
 	else {
 		console.log("Pick a card.");
@@ -47,13 +47,6 @@ function flipCard() {
 }
 
 function createBoard() {
-	// var resetImages = document.getElementById("game-board");
-	// if (resetImages.hasChildNodes()) {
-	// 	while (resetImages.hasChildNodes()) {
-	// 		resetImages.removeChild(list.firstChild);
-	// 	}		
-	// }
-
 	for (let i = 0; i < cards.length; i++) {
 		let cardElement = document.createElement('img');
 		cardElement.setAttribute('src', 'images/back.png');
@@ -63,12 +56,22 @@ function createBoard() {
 	}
 }
 
-// function resetButt() {
-// 	let resetButton = document.createElement('button');
-// 	resetButton.innerHTML = 'Reset Button';
-// 	document.getElementById("game-board").appendChild(resetButton);
-// 	resetButton.addEventListener('click', createBoard);
-// }
+function resetButt() {
+	let resetButton = document.createElement('button');
+	resetButton.innerHTML = 'Reset Button';
+	document.getElementById("game-board").appendChild(resetButton);
+	resetButton.addEventListener('click', resetGame);
+}
+
+function resetGame() {
+	var resetImages = document.getElementById("game-board");
+
+		while (resetImages.hasChildNodes()) {
+			resetImages.removeChild(resetImages.firstChild);
+		}
+		createBoard();
+		cardsInPlay =[];
+}
 
 createBoard();
 
