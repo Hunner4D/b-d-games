@@ -154,6 +154,12 @@ function scoreBoard() {
 	ranksInPlay = [];
 	suitesInPlay = [];
 
+	for (let i = 0; i < cards.length; i++) {
+		let cardStageThree = document.createElement('img');
+		cardStageThree.setAttribute('src', 'images/back.png');
+		document.getElementById("game-board").appendChild(cardStageThree);
+	}	
+
 	resetButt();
 }
 
