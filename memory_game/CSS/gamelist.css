@@ -51,9 +51,9 @@ a:hover {
 
 h2 {
 	font-family: "Raleway", sans-serif;
-	color: #9e9891;
+	color: #686460;
 	letter-spacing: 1px;
-	font-weight: 600;
+	font-weight: 900;
 	font-size: 20px;
 	text-transform: uppercase;
 }
@@ -124,11 +124,19 @@ font-size: 0;
 	font-weight: 700;
 }
 
-.big-font {
-font-family: "Raleway", sans-serif;
-color: #f56960;
-font-weight: 500;
-font-size: 20px;
-text-transform: uppercase;
-margin: 0;
+.game-links {
+	font-family: "Raleway", sans-serif;
+	color: #9e9891;
+	letter-spacing: 1px;
+	font-weight: 600;
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
+#weird-link {
+	float: right;
+}
+
+#weird-link:hover {
+	border-bottom: 2px solid #FFFFFF;
 }
