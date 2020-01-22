@@ -11,11 +11,11 @@ body {
 text-align: center;
 margin: 0;
 background-color: #f8f4e3;
-height: 100%;		/*sticky footer*/
-position: relative;		/*sticky footer*/
+height: 100%;			/*sticky foot*/
+position: relative;		/*sticky foot*/
 }
 
-.main-container {		/*added for sticky foot*/
+.main-container {		/*sticky foot*/
  min-height: 100vh; /* will cover the 100% of viewport */
  overflow: hidden;
  display: block;
@@ -46,15 +46,15 @@ a {
 }
 
 a:hover {
-	border-bottom: 2px solid #00A6B3;
+	border-bottom: 2px solid white;
 }
 
 h2 {
 	font-family: "Raleway", sans-serif;
-	color: #686460;
+	color: #9e9891;
 	letter-spacing: 1px;
-	font-weight: 900;
-	font-size: 28px;
+	font-weight: 600;
+	font-size: 20px;
 	text-transform: uppercase;
 }
 
@@ -95,18 +95,9 @@ footer {
 	letter-spacing: .08em;
 	font-weight: 500;
 	margin-bottom: 0px;
-	position: absolute; /*added for sticky footer*/
-	bottom: 0;		/*added for sticky footer*/
-	width: 100%;	/*added for sticky footer*/
-}
-
-.clearfix:after {
-visibility: hidden;
-display: block;
-content: " ";
-clear: both;
-height: 0;
-font-size: 0;
+	position: absolute;		/*sticky foot*/
+	bottom: 0;			/*sticky foot*/
+	width: 100%;		/*sticky foot*/
 }
 
 .copyright {
@@ -124,24 +115,16 @@ font-size: 0;
 	float: right;
 }
 
+.clearfix:after {
+visibility: hidden;
+display: block;
+content: " ";
+clear: both;
+height: 0;
+font-size: 0;
+}
+
 .name {
 	color: #f56960;
 	font-weight: 700;
-}
-
-.game-links {
-	font-family: "Raleway", sans-serif;
-	color: #9e9891;
-	letter-spacing: 1px;
-	font-weight: 600;
-	font-size: 25px;
-	text-transform: uppercase;
-}
-
-#weird-link {
-	float: right;
-}
-
-#weird-link:hover {
-	border-bottom: 2px solid #FFFFFF;
 }
