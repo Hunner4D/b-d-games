@@ -104,6 +104,12 @@ footer {
 	color: white;
 	float: left;
 }
+
+.braindead {
+	color: white;
+	display: inline-flex;
+}
+
 .message {
 	color: white;
 	float: right;

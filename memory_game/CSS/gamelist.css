@@ -114,6 +114,11 @@ font-size: 0;
 	float: left;
 }
 
+.braindead {
+	color: white;
+	display: inline-flex;
+}
+
 .message {
 	color: white;
 	float: right;
