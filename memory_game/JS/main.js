@@ -28,10 +28,17 @@ function checkForMatch() {
 
 	if ((ranksInPlay[0] === ranksInPlay[1] && ranksInPlay.length === 2) && (suitesInPlay[0] === suitesInPlay[1] && suitesInPlay.length === 2)) {
   		showCards();
-  		alert("You found a match!");
   		score.won += 1;
-  		console.log(score);
-  		scoreBoard();
+  		if (score.won == 30) {
+  			alert("Holy shit you're good!");
+  			finalScoreBoard();
+  		}
+  		else {
+  			alert("You found a match!");
+  			console.log(score);
+  			scoreBoard();
+  		}
+  		
 	} else if ((ranksInPlay[0] !== ranksInPlay[1] && ranksInPlay.length === 2) || (suitesInPlay[0] !== suitesInPlay[1] && suitesInPlay.length === 2)) {
   		showCards();
   		alert("No match, try again.");
@@ -66,6 +73,7 @@ function createFlashBoard() {
 		document.getElementById("game-board").appendChild(cardStageOne);
 	}
 
+		// causes a bug
 	let zeroCard = null;
 	let oneCard = null;
 	let twoCard = null;
@@ -85,7 +93,6 @@ function createFlashBoard() {
 		}
 	}
 	if (zeroCard == 1 && oneCard == 1 && twoCard == 1 && threeCard == 1) {
-		setTimeout(showCards, 4000);
 		randomRoll = [];
 		createFlashBoard();
 	}
@@ -117,8 +124,11 @@ function createFlashBoard() {
 	else if (score.won <= 21) {
 		setTimeout(createHiddenBoard, 200);
 	}
-	else if (score.won > 21) {
-		setTimeout(createHiddenBoard, 150);
+	else if (score.won <= 23) {
+		setTimeout(createHiddenBoard, 100);
+	}
+	else if (score.won > 23) {
+		setTimeout(createHiddenBoard, 50);
 	}
 }
 
@@ -181,6 +191,20 @@ function showCards() {
 	for (let i = 0; i < cards.length; i++) {
 		document.getElementsByTagName('img')[i].setAttribute('src', cards[randomRoll[i]].cardImage);
 	}
+}
+
+function finalScoreBoard() {
+	clearImages();
+	let showFinalScore = document.createElement('h1');
+	showFinalScore.setAttribute('id', 'scoreboard');
+	showFinalScore.innerHTML = 'Game Over. You won ' + score.won + ' times. And lost ' + score.lost + ' times.';
+	document.getElementById("game-board").appendChild(showFinalScore);
+	randomRoll = [];
+	ranksInPlay = [];
+	suitesInPlay = [];
+	score.won = 0;
+	score.lost = 0;
+	startGame();
 }
 
 startGame();
