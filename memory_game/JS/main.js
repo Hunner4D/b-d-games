@@ -183,8 +183,42 @@ function resetButt() {
 function startGame() {
 	let startButton = document.createElement('button');
 	startButton.innerHTML = 'Start Game';
+	startButton.setAttribute('id', 'startbutton');
 	document.getElementById("game-board").appendChild(startButton);
-	startButton.addEventListener('click', createFlashBoard);
+	startButton.addEventListener('click', clockTimer3);
+}
+
+
+let clockDisplay = document.createElement('h2');
+
+function clockTimer3() {
+	setTimeout(print3, 200);
+}
+
+function print3() {
+	clockDisplay.innerHTML = '3';
+	document.getElementById("game-board").appendChild(clockDisplay);
+	clockTimer2();
+}
+
+function clockTimer2() {
+	setTimeout(print2, 1000);
+}
+
+function print2() {
+	clockDisplay.innerHTML = '2';
+	document.getElementById("game-board").appendChild(clockDisplay);
+	clockTimer1();
+}
+
+function clockTimer1() {
+	setTimeout(print1, 1000);
+}
+
+function print1() {
+	clockDisplay.innerHTML = '1';
+	document.getElementById("game-board").appendChild(clockDisplay);
+	setTimeout(createFlashBoard, 1000);
 }
 
 function showCards() {
