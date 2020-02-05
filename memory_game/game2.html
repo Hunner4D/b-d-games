@@ -2,7 +2,7 @@
 <html>
 
 <head>
- 	<title>Game Two</title>
+ 	<title>Tic Tac Toe</title>
  	<link href="https://fonts.googleapis.com/css?family=Droid+Serif|Raleway:400,500,600,700" rel="stylesheet">
  	<link href="CSS/game2.css" rel="stylesheet" type="text/css">
  </head>
@@ -10,14 +10,35 @@
 <body>
 	<div class="main-container">
 	<header>
-		<h1>Game Two</h1>
+		<h1>Tic Tac Toe</h1>
 	</header>
 	<nav>
 		<a href="gamelist.html">Games</a>
 		<a href="aboutteam.html">Team</a>
 	</nav>
 	<main>
-		<h2>Instructions</h2>
+		<h2>Instructions: Get Three Across</h2>
+
+		<div id= "choose-player" class="clearfix">
+			<button id="player-one">Player X</button>
+			<button id="player-two">Player O</button>
+		</div>
+
+		<div id="winner-text"></div>
+
+		<div id="board" class="clearfix">
+            <div id="grid-a">   <!-- a for hidden, b for visible -->
+                <div class="cell" id="box0"></div>
+                <div class="cell" id="box1"></div>
+                <div class="cell" id="box2"></div>
+                <div class="cell" id="box3"></div>
+                <div class="cell" id="box4"></div>
+                <div class="cell" id="box5"></div>
+                <div class="cell" id="box6"></div>
+                <div class="cell" id="box7"></div>
+                <div class="cell" id="box8"></div>
+            </div>
+        </div>
 		
 		
 
@@ -29,7 +50,7 @@
 	</footer>
 	</div>
 
-<!-- <script src="js/main.js"></script> -->
+<script src="js/tictactoe.js"></script>
 </body>
 
 </html>
