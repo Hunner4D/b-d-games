@@ -3,19 +3,23 @@ console.log("Up and running!");
 let cards = [ {
 		rank: "Queen",
 		suit: "hearts",
-		cardImage: "images/queen-of-hearts.png"},
+		// cardImage: "images/queen-of-hearts.png"},
+		cardImage: "card-deck-css/images/hearts/hearts-Q.svg"},
 	{
 		rank: "Queen",
 		suit: "diamonds",
-		cardImage: "images/queen-of-diamonds.png"},
+		// cardImage: "images/queen-of-diamonds.png"},
+		cardImage: "card-deck-css/images/diamonds/diamonds-Q.svg"},
 	{
 		rank: "King",
 		suit: "hearts",
-		cardImage: "images/king-of-hearts.png"},
+		// cardImage: "images/king-of-hearts.png"},
+		cardImage: "card-deck-css/images/hearts/hearts-K.svg"},
 	{
 		rank: "King",
 		suit: "diamonds",
-		cardImage: "images/king-of-diamonds.png"}
+		// cardImage: "images/king-of-diamonds.png"}
+		cardImage: "card-deck-css/images/diamonds/diamonds-K.svg"}
 	];
 
 let ranksInPlay = [];
@@ -52,7 +56,7 @@ function checkForMatch() {
 }
 
 function flipCard() {
-	if (this.getAttribute('src') == 'images/back.png') {
+	if (this.getAttribute('src') == 'card-deck-css/images/backs/blue.svg') {
 		let cardId = this.getAttribute('data-id');
 	this.setAttribute('src', cards[cardId].cardImage);
 	ranksInPlay.push(cards[cardId].rank);
@@ -137,7 +141,7 @@ function createHiddenBoard() {
 
 	for (let i = 0; i < cards.length; i++) {
 		let cardStageTwo = document.createElement('img');
-		cardStageTwo.setAttribute('src', 'images/back.png');
+		cardStageTwo.setAttribute('src', 'card-deck-css/images/backs/blue.svg');
 		cardStageTwo.setAttribute('data-id', randomRoll[i]);
 		cardStageTwo.addEventListener('click', flipCard);
 		document.getElementById("game-board").appendChild(cardStageTwo);
@@ -150,6 +154,13 @@ function clearImages() {
 
 		while (resetImages.hasChildNodes()) {
 			resetImages.removeChild(resetImages.firstChild);
+		}
+	}
+	if (document.getElementById("reset-button").hasChildNodes()) {
+		var resetButton = document.getElementById("reset-button");
+
+		while (resetButton.hasChildNodes()) {
+			resetButton.removeChild(resetButton.firstChild);
 		}
 	}
 }
@@ -166,7 +177,7 @@ function scoreBoard() {
 
 	for (let i = 0; i < cards.length; i++) {
 		let cardStageThree = document.createElement('img');
-		cardStageThree.setAttribute('src', 'images/back.png');
+		cardStageThree.setAttribute('src', 'card-deck-css/images/backs/blue.svg');
 		document.getElementById("game-board").appendChild(cardStageThree);
 	}	
 
@@ -176,7 +187,7 @@ function scoreBoard() {
 function resetButt() {
 	let resetButton = document.createElement('button');
 	resetButton.innerHTML = 'Reset Game';
-	document.getElementById("game-board").appendChild(resetButton);
+	document.getElementById("reset-button").appendChild(resetButton);
 	resetButton.addEventListener('click', createFlashBoard);
 }
 
@@ -192,6 +203,7 @@ function startGame() {
 let clockDisplay = document.createElement('h2');
 
 function clockTimer3() {
+	document.getElementById('startbutton').removeEventListener('click', clockTimer3);
 	setTimeout(print3, 200);
 }
 
@@ -229,6 +241,7 @@ function showCards() {
 
 function finalScoreBoard() {
 	clearImages();
+	showCards();
 	let showFinalScore = document.createElement('h1');
 	showFinalScore.setAttribute('id', 'scoreboard');
 	showFinalScore.innerHTML = 'Game Over. You won ' + score.won + ' times. And lost ' + score.lost + ' times.';
