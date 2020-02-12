@@ -17,7 +17,7 @@ let round = 0;
 let clickCount = 0;
 let cardRank = 0;
 
-// let bullshit = 0;
+let bullshitMeter = 0;
 let truthButton = document.createElement('button');
 let falseButton = document.createElement('button');
 truthButton.innerHTML = 'Truth';
@@ -72,6 +72,11 @@ function clearPlayerHand() {
 }
 
 function clearButtons() {
+    console.log("clearing...")
+    truthButton.removeEventListener('click', firstPlayerDecision)
+    truthButton.removeEventListener('click', secondPlayerDecision)
+    truthButton.removeEventListener('click', thirdPlayerDecision) //
+    falseButton.removeEventListener('click', checkForBullshit)
     if (document.getElementById("buttons").hasChildNodes()) {
         var resetScene = document.getElementById("buttons");
 
@@ -212,7 +217,7 @@ function readySubmitCards() {
     this.setAttribute('src', 'card-deck-css/images/backs/red.svg');
     submittedCards.push(parseInt(this.getAttribute('data-id')));
     document.getElementById('submit-button').addEventListener('click', submitCards);
-    console.log("Cards submitted: " + submittedCards);
+    console.log("cards submitted: " + submittedCards);
 }
 
 function submitCards() {
@@ -230,7 +235,7 @@ function firstPlayerDecision() {
     playerText.innerHTML = `Pass controls to Player ${returnCurrentPlayer()}<br>Player ${returnCurrentPlayer()}... Truth? Or BS?`;
     document.getElementById("buttons").appendChild(truthButton);
     document.getElementById("buttons").appendChild(falseButton);
-    truthButton.addEventListener('click', secondPlayerDecision)
+    truthButton.addEventListener('click', secondPlayerDecision) //
     falseButton.addEventListener('click', checkForBullshit)
     console.log('turn is now: ' + turn)
     console.log('card rank is: ' + cardRank)
@@ -242,7 +247,7 @@ function secondPlayerDecision() {
     playerText.innerHTML = `Pass controls to Player ${returnCurrentPlayer()}<br>Player ${returnCurrentPlayer()}... Truth? Or BS?`;
     document.getElementById("buttons").appendChild(truthButton);
     document.getElementById("buttons").appendChild(falseButton);
-    truthButton.addEventListener('click', thirdPlayerDecision)
+    truthButton.addEventListener('click', thirdPlayerDecision) //
     falseButton.addEventListener('click', checkForBullshit)
     console.log('turn is now: ' + turn)
     console.log('card rank is: ' + cardRank)
@@ -254,7 +259,7 @@ function thirdPlayerDecision() {
     playerText.innerHTML = `Pass controls to Player ${returnCurrentPlayer()}<br>Player ${returnCurrentPlayer()}... Truth? Or BS?`;
     document.getElementById("buttons").appendChild(truthButton);
     document.getElementById("buttons").appendChild(falseButton);
-    truthButton.addEventListener('click', nextRound)
+    truthButton.addEventListener('click', nextRound) //
     falseButton.addEventListener('click', checkForBullshit)
     console.log('turn is now: ' + turn)
     console.log('card rank is: ' + cardRank)
@@ -276,5 +281,22 @@ function returnCurrentPlayer() {
 }
 
 function checkForBullshit() {
+    submittedCards.forEach(element => {
+        if (element !== cardRank + 1) {
+            bullshitMeter += 1;
+        }
+    });
+    if (bullshitMeter !== 0) {
+        console.log("bullshit boiiiii")
+        clearButtons()
+    }
+    else if (bullshitMeter === 0) {
+        console.log("He is safe")
+        clearButtons()
+    }
+}
 
+function nextRound() {
+    clearButtons()
+    console.log('next round')
 }
