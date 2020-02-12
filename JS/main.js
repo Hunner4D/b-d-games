@@ -31,7 +31,7 @@ function checkForMatch() {
 	//this.setAttribute('src', cards[cardId].cardImage);
 
 	if ((ranksInPlay[0] === ranksInPlay[1] && ranksInPlay.length === 2) && (suitesInPlay[0] === suitesInPlay[1] && suitesInPlay.length === 2)) {
-  		showCards();
+  		showCards()
   		score.won += 1;
   		if (score.won == 30) {
   			alert("Holy shit you're good!");
@@ -56,7 +56,7 @@ function checkForMatch() {
 }
 
 function flipCard() {
-	if (this.getAttribute('src') == 'card-deck-css/images/backs/blue.svg') {
+	if (this.getAttribute('src') == 'card-deck-css/images/backs/red.svg') {
 		let cardId = this.getAttribute('data-id');
 	this.setAttribute('src', cards[cardId].cardImage);
 	ranksInPlay.push(cards[cardId].rank);
@@ -102,37 +102,37 @@ function createFlashBoard() {
 	}
 
 	if (score.won <= 3) {
-		setTimeout(createHiddenBoard, 1000);
+		setTimeout(createHiddenBoard, 2000);
 	}
 	else if (score.won <= 5) {
-		setTimeout(createHiddenBoard, 900);
+		setTimeout(createHiddenBoard, 1800);
 	}
 	else if (score.won <= 7) {
-		setTimeout(createHiddenBoard, 800);
+		setTimeout(createHiddenBoard, 1600);
 	}
 	else if (score.won <= 9) {
-		setTimeout(createHiddenBoard, 700);
+		setTimeout(createHiddenBoard, 1400);
 	}
 	else if (score.won <= 11) {
-		setTimeout(createHiddenBoard, 600);
+		setTimeout(createHiddenBoard, 1200);
 	}
 	else if (score.won <= 13) {
-		setTimeout(createHiddenBoard, 500);
+		setTimeout(createHiddenBoard, 1000);
 	}
 	else if (score.won <= 15) {
-		setTimeout(createHiddenBoard, 400);
+		setTimeout(createHiddenBoard, 800);
 	}
 	else if (score.won <= 18) {
-		setTimeout(createHiddenBoard, 300);
+		setTimeout(createHiddenBoard, 600);
 	}
 	else if (score.won <= 21) {
-		setTimeout(createHiddenBoard, 200);
+		setTimeout(createHiddenBoard, 400);
 	}
 	else if (score.won <= 23) {
-		setTimeout(createHiddenBoard, 100);
+		setTimeout(createHiddenBoard, 200);
 	}
 	else if (score.won > 23) {
-		setTimeout(createHiddenBoard, 50);
+		setTimeout(createHiddenBoard, 100);
 	}
 }
 
@@ -141,7 +141,7 @@ function createHiddenBoard() {
 
 	for (let i = 0; i < cards.length; i++) {
 		let cardStageTwo = document.createElement('img');
-		cardStageTwo.setAttribute('src', 'card-deck-css/images/backs/blue.svg');
+		cardStageTwo.setAttribute('src', 'card-deck-css/images/backs/red.svg');
 		cardStageTwo.setAttribute('data-id', randomRoll[i]);
 		cardStageTwo.addEventListener('click', flipCard);
 		document.getElementById("game-board").appendChild(cardStageTwo);
@@ -177,7 +177,7 @@ function scoreBoard() {
 
 	for (let i = 0; i < cards.length; i++) {
 		let cardStageThree = document.createElement('img');
-		cardStageThree.setAttribute('src', 'card-deck-css/images/backs/blue.svg');
+		cardStageThree.setAttribute('src', 'card-deck-css/images/backs/red.svg');
 		document.getElementById("game-board").appendChild(cardStageThree);
 	}	
 
