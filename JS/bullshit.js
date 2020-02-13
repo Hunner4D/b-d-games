@@ -22,6 +22,10 @@ let bullshitMeter = 0;
 let truthButton = document.createElement('button');
 let falseButton = document.createElement('button');
 let nextRoundButton = document.createElement('button');
+let readyButton;
+let cardStageOne;
+let submitButton;
+
 truthButton.innerHTML = 'Truth';
 falseButton.innerHTML = 'Bullshit';
 nextRoundButton.innerHTML = 'Click For Next Round';
@@ -85,10 +89,20 @@ function clearCardsInPlay() {
 
 function clearButtons() {
     console.log("clearing...")
+    // readyButton.removeEventListener('click', function() {translateNumToCard(returnCurrentPlayer())} );
     truthButton.removeEventListener('click', firstPlayerDecision)
     truthButton.removeEventListener('click', secondPlayerDecision)
-    truthButton.removeEventListener('click', thirdPlayerDecision) //
+    truthButton.removeEventListener('click', thirdPlayerDecision) 
+    truthButton.removeEventListener('click', function() {
+        // trackTurn()
+        // trackCard()
+        readyPlayer(returnCurrentPlayer())
+    });
     falseButton.removeEventListener('click', checkForBullshit)
+    nextRoundButton.removeEventListener('click', function() {readyPlayer(returnCurrentPlayer())} );
+    // cardStageOne.removeEventListener('click', readySubmitCards);
+    // submitButton.removeEventListener('click', submitCards);
+
     if (document.getElementById("buttons").hasChildNodes()) {
         var resetScene = document.getElementById("buttons");
 
@@ -151,9 +165,10 @@ function startGame() {
 }
 
 function readyPlayer() {
+    submittedCards = [];
     clearButtons()
     playerText.innerHTML = `Player ${returnCurrentPlayer().number}`;
-    let readyButton = document.createElement('button');
+    readyButton = document.createElement('button');
     readyButton.innerHTML = `Ready Player ${returnCurrentPlayer().number}?`;
     document.getElementById("buttons").appendChild(readyButton);
 
@@ -169,7 +184,7 @@ function readyPlayer() {
 }
 
 function displayTargetCard(idx) {
-    let cardStageOne = document.createElement('img');
+    cardStageOne = document.createElement('img');
     // cardStageOne.removeEventListener('click', readySubmitCards);
     cardStageOne.setAttribute('src', cardDeck[idx]);
     cardStageOne.setAttribute('data-id', idx);
@@ -222,7 +237,7 @@ function translateNumToCard(player) {
             displayTargetCard(12)
         }
     }
-    let submitButton = document.createElement('button');
+    submitButton = document.createElement('button');
     submitButton.innerHTML = 'Submit Cards';
     submitButton.setAttribute('id', 'submit-button');
     document.getElementById("buttons").appendChild(submitButton);
@@ -233,11 +248,12 @@ function readySubmitCards() {
     if (this.getAttribute('src') === 'card-deck-css/images/backs/red.svg') return
     this.setAttribute('src', 'card-deck-css/images/backs/red.svg');
     submittedCards.push(parseInt(this.getAttribute('data-id')));
-    document.getElementById('submit-button').addEventListener('click', submitCards);
+    submitButton.addEventListener('click', submitCards);
     console.log("cards submitted: " + submittedCards);
 }
 
 function submitCards() {
+    trackTurn()
     submittedCards.forEach(element => cardsInPlay.push(element));
     console.log("cards in play: " + cardsInPlay)
     startingAce.setAttribute('src', 'card-deck-css/images/backs/red.svg');
@@ -249,7 +265,7 @@ function submitCards() {
 
 function firstPlayerDecision() {   
     clearButtons()
-    trackTurn() 
+    // trackTurn() 
     playerText.innerHTML = `Pass controls to Player ${returnCurrentPlayer().number}<br>Player ${returnCurrentPlayer().number}... Truth? Or BS?`;
     document.getElementById("buttons").appendChild(truthButton);
     document.getElementById("buttons").appendChild(falseButton);
@@ -327,30 +343,37 @@ function checkForBullshit() {
         console.log("bullshit boiiiii")
         clearButtons()
         clearCardsInPlay()
+        // trackTurn()
+        // trackCard()
         while (cardsInPlay.length > 0) {
             returnSubmittingPlayer().hand.push(cardsInPlay.shift());
         }
         playerText.innerHTML = `Player ${returnSubmittingPlayer().number} got caught! Player ${returnSubmittingPlayer().number} has picked up all the cards! Player ${returnSubmittingPlayer().number} now has ${returnSubmittingPlayer().hand.length} cards!`;
         document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}`;
         console.log(`Player ${returnSubmittingPlayer().number}'s hand is now ${returnSubmittingPlayer().hand}`);
-        trackTurn()
-        trackCard()
         nextRoundButton.addEventListener('click', function() {readyPlayer(returnCurrentPlayer())} );
         document.getElementById("buttons").appendChild(nextRoundButton);
+        console.log('turn is now: ' + turn)
+        cardsInPlay = [];
+        submittedCards = [];
     }
     else if (bullshitMeter === 0) {
         console.log("He is safe")
         clearButtons()
         clearCardsInPlay()
+        // trackTurn()
+        // trackCard()
         while (cardsInPlay.length > 0) {
             returnCurrentPlayer().hand.push(cardsInPlay.shift());
         }
         playerText.innerHTML = `Player ${returnCurrentPlayer().number} was wrong to call! Player ${returnCurrentPlayer().number} has picked up all the cards! Player ${returnCurrentPlayer().number} now has ${returnCurrentPlayer().hand.length} cards!`;
         document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}`;
         console.log(`Player ${returnCurrentPlayer().number}'s hand is now ${returnCurrentPlayer().hand}`);
-        trackTurn()
-        trackCard()
         nextRoundButton.addEventListener('click', function() {readyPlayer(returnCurrentPlayer())} );
         document.getElementById("buttons").appendChild(nextRoundButton);
+        console.log('turn is now: ' + turn)
+        cardsInPlay = [];
+        submittedCards = [];
     }
+    // trackTurn()
 }
