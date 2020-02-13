@@ -68,6 +68,93 @@ function trackCard() {
     }
 }
 
+function returnNextCardRank() {
+    if (cardRank === 0) {
+        return "Two"
+    }
+    else if (cardRank === 1) {
+        return "Three"
+    }
+    else if (cardRank === 2) {
+        return "Four"
+    }
+    else if (cardRank === 3) {
+        return "Five"
+    }
+    else if (cardRank === 4) {
+        return "Six"
+    }
+    else if (cardRank === 5) {
+        return "Seven"
+    }
+    else if (cardRank === 6) {
+        return "Eight"
+    }
+    else if (cardRank === 7) {
+        return "Nine"
+    }
+    else if (cardRank === 8) {
+        return "Ten"
+    }
+    else if (cardRank === 9) {
+        return "Jack"
+    }
+    else if (cardRank === 10) {
+        return "Queen"
+    }
+    else if (cardRank === 11) {
+        return "King"
+    }
+    else if (cardRank === 12) {
+        return "Ace"
+    }
+}
+
+function returnCurrentPlayer() {
+    if (turn === 0) {
+        return playerOne
+    }
+    else if (turn === 1) {
+        return playerTwo
+    }
+    else if (turn === 2) {
+        return playerThree
+    }
+    else if (turn === 3) {
+        return playerFour
+    }
+}
+
+function returnNextPlayer() {   //single case use
+    if (turn === 0) {
+        return playerTwo
+    }
+    else if (turn === 1) {
+        return playerThree
+    }
+    else if (turn === 2) {
+        return playerFour
+    }
+    else if (turn === 3) {
+        return playerOne
+    }
+}
+
+function returnSubmittingPlayer() {
+    if (playerSubmitting === "One") {
+        return playerOne
+    }
+    else if (playerSubmitting === "Two") {
+        return playerTwo
+    }
+    else if (playerSubmitting === "Three") {
+        return playerThree
+    }
+    else if (playerSubmitting === "Four") {
+        return playerFour
+    }
+}
+
 function clearPlayerHand() {
     if (document.getElementById("player-hand").hasChildNodes()) {
         var resetScene = document.getElementById("player-hand");
@@ -80,6 +167,16 @@ function clearPlayerHand() {
 function clearCardsInPlay() {
     if (document.getElementById("card-in-play").hasChildNodes()) {
         var resetScene = document.getElementById("card-in-play");
+
+        while (resetScene.hasChildNodes()) {
+            resetScene.removeChild(resetScene.firstChild);
+        }
+    }
+}
+
+function clearBoard() {
+    if (document.getElementById("board").hasChildNodes()) {
+        var resetScene = document.getElementById("board");
 
         while (resetScene.hasChildNodes()) {
             resetScene.removeChild(resetScene.firstChild);
@@ -161,6 +258,10 @@ function startGame() {
 }
 
 function readyPlayer() {
+    checkForWinner()
+    clearPlayerHand()
+    document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}. And the card to play is ${returnNextCardRank()}`;
+    console.log('card rank is: ' + cardRank)
     submittedCards = [];
     clearButtons()
     playerText.innerHTML = `Player ${returnCurrentPlayer().number}`;
@@ -171,7 +272,7 @@ function readyPlayer() {
     playerSubmitting = "";
     playerSubmitting = returnCurrentPlayer().number;
 
-    for (let i = 0; i < returnCurrentPlayer().hand.length; i++) {
+    for (let i = 0; i < returnCurrentPlayer().hand.length; i++) { //===================================
         let cardBlankOne = document.createElement('img');
         cardBlankOne.setAttribute('src', 'card-deck-css/images/backs/red.svg');
         document.getElementById("player-hand").appendChild(cardBlankOne);
@@ -249,11 +350,10 @@ function readySubmitCards() {
 }
 
 function submitCards() {
-    // trackTurn()
     submittedCards.forEach(element => cardsInPlay.push(element));
     console.log("cards in play: " + cardsInPlay)
     startingAce.setAttribute('src', 'card-deck-css/images/backs/red.svg');
-    document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}`;
+    document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}.`;
     clearPlayerHand()
 
     firstPlayerDecision()
@@ -298,41 +398,19 @@ function thirdPlayerDecision() {
     console.log('card rank is: ' + cardRank)
 }
 function p3decision() {
-
     trackTurn()
     trackCard()
+    removeCardsFromPlayerHand()
     readyPlayer(returnCurrentPlayer())
-
 }
 
-function returnCurrentPlayer() {
-    if (turn === 0) {
-        return playerOne
-    }
-    else if (turn === 1) {
-        return playerTwo
-    }
-    else if (turn === 2) {
-        return playerThree
-    }
-    else if (turn === 3) {
-        return playerFour
-    }
-}
-
-function returnSubmittingPlayer() {
-    if (playerSubmitting === "One") {
-        return playerOne
-    }
-    else if (playerSubmitting === "Two") {
-        return playerTwo
-    }
-    else if (playerSubmitting === "Three") {
-        return playerThree
-    }
-    else if (playerSubmitting === "Four") {
-        return playerFour
-    }
+function removeCardsFromPlayerHand() {
+    submittedCards.forEach(element => {
+        let index = returnSubmittingPlayer().hand.indexOf(element);
+        returnSubmittingPlayer().hand.splice(index, 1);
+    });
+    console.log(returnSubmittingPlayer().hand)
+    submittedCards = [];
 }
 
 function checkForBullshit() {
@@ -345,37 +423,56 @@ function checkForBullshit() {
         console.log("bullshit boiiiii")
         clearButtons()
         clearCardsInPlay()
-        // trackTurn()
-        // trackCard()
+        trackCard()
         while (cardsInPlay.length > 0) {
             returnSubmittingPlayer().hand.push(cardsInPlay.shift());
         }
-        playerText.innerHTML = `Player ${returnSubmittingPlayer().number} got caught! Player ${returnSubmittingPlayer().number} has picked up all the cards! Player ${returnSubmittingPlayer().number} now has ${returnSubmittingPlayer().hand.length} cards!`;
         document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}`;
         console.log(`Player ${returnSubmittingPlayer().number}'s hand is now ${returnSubmittingPlayer().hand}`);
         nextRoundButton.addEventListener('click', function () { readyPlayer(returnCurrentPlayer()) });
         document.getElementById("buttons").appendChild(nextRoundButton);
         console.log('turn is now: ' + turn)
         cardsInPlay = [];
-        submittedCards = [];
+        removeCardsFromPlayerHand() 
+        playerText.innerHTML = `Player ${returnSubmittingPlayer().number} got caught! Player ${returnSubmittingPlayer().number} has picked up all the cards! Player ${returnSubmittingPlayer().number} now has ${returnSubmittingPlayer().hand.length} cards!`;
     }
     else if (bullshitMeter === 0) {
         console.log("He is safe")
         clearButtons()
         clearCardsInPlay()
-        // trackTurn()
-        // trackCard()
+        trackCard()
         while (cardsInPlay.length > 0) {
             returnCurrentPlayer().hand.push(cardsInPlay.shift());
         }
-        playerText.innerHTML = `Player ${returnCurrentPlayer().number} was wrong to call! Player ${returnCurrentPlayer().number} has picked up all the cards! Player ${returnCurrentPlayer().number} now has ${returnCurrentPlayer().hand.length} cards!`;
         document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}`;
         console.log(`Player ${returnCurrentPlayer().number}'s hand is now ${returnCurrentPlayer().hand}`);
         nextRoundButton.addEventListener('click', function () { readyPlayer(returnCurrentPlayer()) });
         document.getElementById("buttons").appendChild(nextRoundButton);
         console.log('turn is now: ' + turn)
         cardsInPlay = [];
-        submittedCards = [];
+        removeCardsFromPlayerHand()
+        playerText.innerHTML = `Player ${returnCurrentPlayer().number} was wrong to call! Player ${returnCurrentPlayer().number} has picked up all the cards! Player ${returnCurrentPlayer().number} now has ${returnCurrentPlayer().hand.length} cards!`;
     }
-    // trackTurn()
+}
+
+function checkForWinner() {
+    if (playerOne.hand.length === 0) {
+        winnerVariable(playerOne)
+    }
+    else if (playerTwo.hand.length === 0) {
+        winnerVariable(playerTwo)
+    }
+    else if (playerThree.hand.length === 0) {
+        winnerVariable(playerThree)
+    }
+    else if (playerFour.hand.length === 0) {
+        winnerVariable(playerFour)
+    }
+}
+
+function winnerVariable(player) {
+    clearBoard()
+    let winner = document.createElement('h2');
+    winner.innerHTML = `Player ${player.number} has won the game!`;
+    document.getElementById('board').appendChild(winner);
 }
