@@ -355,7 +355,7 @@ function submitCards() {
     startingAce.setAttribute('src', 'card-deck-css/images/backs/red.svg');
     document.getElementById('cards-in-play-text').innerHTML = `Cards In Play: ${cardsInPlay.length}.`;
     clearPlayerHand()
-
+                        
     firstPlayerDecision()
 }
 
